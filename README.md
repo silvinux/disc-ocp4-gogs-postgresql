@@ -1,11 +1,11 @@
-# Deploy gogs with postgresql in a disconnected OCP 4 with persistent storage.
+## Deploy gogs with postgresql in a disconnected OCP 4 with persistent storage.
 
-* Storage.
+### Storage.
 
 ⋅⋅* As this guide pretend to be used as a learning resource, so the exercise it will be provisioned with persistent storage using NFS. The NFS shares will be provided by a RHEL 8 server.
 
 
-* Storage creation
+#### Storage creation
 
 ⋅⋅* Install Packages needed
 
@@ -13,20 +13,22 @@
 $ yum install firewalld nfs-utils -y
 ```
 
-..* Active services.
+#### Active services.
 
 ```
 $ systemctl enable --now nfs-server rpcbind firewalld;systemctl start firewalld nfs-server rpcbind
 ```
 
-..* Add firewall rules. 
+#### Add firewall rules. 
 
 ```
 $ firewall-cmd --add-service={nfs,nfs3,mountd,rpc-bind} --permanent;firewall-cmd --reload
 
 ```
 
-..* Create the directories and apply the corresponding permissions.  Take into account that [nobody user replaces nfsnobody on RHEL8](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/considerations_in_adopting_rhel_8/index#the-nobody-user-replaces-nfsnobody_shells-and-command-line-tools)
+#### Create the directories and apply the corresponding permissions.  
+
+Take into account that [nobody user replaces nfsnobody on RHEL8](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/considerations_in_adopting_rhel_8/index#the-nobody-user-replaces-nfsnobody_shells-and-command-line-tools)
 
 
 ```
