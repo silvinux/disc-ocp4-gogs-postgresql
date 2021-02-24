@@ -2,7 +2,7 @@
 
 ### Storage.
 
-⋅⋅* As this guide pretend to be used as a learning resource, so the exercise it will be provisioned with persistent storage using NFS. The NFS shares will be provided by a RHEL 8 server.
+As this guide pretend to be used as a learning resource, so the exercise it will be provisioned with persistent storage using NFS. The NFS shares will be provided by a RHEL 8 server.
 
 ##### Install Packages needed
 
@@ -20,7 +20,6 @@ $ systemctl enable --now nfs-server rpcbind firewalld;systemctl start firewalld 
 
 ```
 $ firewall-cmd --add-service={nfs,nfs3,mountd,rpc-bind} --permanent;firewall-cmd --reload
-
 ```
 
 ##### Create the directories and apply the corresponding permissions.  
@@ -36,6 +35,7 @@ $ sudo chown nobody:nobody /var/nfsshare/{gogs,postgresql}
 
 ##### Create the shares configuration and export the shares.
 
+```
 $ cat << EOF > /etc/exports.d/cidc.exports
 "/var/nfsshare/gogs" *(rw,no_root_squash)
 "/var/nfsshare/postgresql" *(rw,no_root_squash)
