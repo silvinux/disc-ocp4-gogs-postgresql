@@ -101,7 +101,6 @@ $ oc new-project gogs
 
 ##### Create Quotas and Limits
 
-
 ```
 $ cat  << EOF > compute-resources.yml 
 apiVersion: v1
@@ -215,9 +214,7 @@ $ oc create -f pv_gogs.yml
 $ oc create -f pv_postgresql.yml
 ```
 
-### Deploy postgresql server. 
-
-**It should be done first, because gogs apps will connect to it.**
+### Deploy postgresql server. (It should be done first, because gogs apps will connect to it.)
 
 ```
 $ oc new-app postgresql-persistent --param POSTGRESQL_DATABASE=gogs --param POSTGRESQL_USER=gogs\
@@ -225,7 +222,7 @@ $ oc new-app postgresql-persistent --param POSTGRESQL_DATABASE=gogs --param POST
 -lapp=postgresql --insecure-registry
 
 ```
-..* Once the pods are deployed, database access should be checked.
+* Once the pods are deployed, database access should be checked.
 
 
 ```
@@ -234,7 +231,7 @@ echo $POD_DB
 oc port-forward $POD_DB 5432:5432
 ```
 
-..* Open other terminal, connect with psql client.
+* Open other terminal, connect with psql client.
 
 ```
         $ psql -h127.0.0.1 -Ugogs -W
