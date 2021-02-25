@@ -45,25 +45,42 @@ $ sudo exportfs -rva
 
 ### Images
 
-The image [docker.io/wkulhanek/gogs](https://github.com/wkulhanek/docker-openshift-gogs) will be used. It must be downloaded first, and upload it to a registry. Podman has been used to manage the images.
+The following images will be used. It must be downloaded first, and upload it to a registry. Podman has been used to manage the images.
+
+- [postgresql-10](https://catalog.redhat.com/software/containers/rhel8/postgresql-10) 
+- [docker.io/wkulhanek/gogs](https://github.com/wkulhanek/docker-openshift-gogs) 
 
 ##### Search and download the image.
+
+###### Gogs image will be downladed from docker
 
 ```
 $ podman search gogs
 $ podman pull docker.io/wkulhanek/gogs
 ```
 
+###### postgresql-10 image will be downloaded from Red Hat registry, so we need to login first
+
+```
+podman login registry.redhat.io
+  Username: {REGISTRY-SERVICE-ACCOUNT-USERNAME}
+  Password: {REGISTRY-SERVICE-ACCOUNT-PASSWORD}
+  Login Succeeded!
+$ podman search postgresql-10
+$ podman pull registry.redhat.io/rhel8/postgresql-10
+```
+
 ##### Save the image. You must have internet access.
 
 ```
 $ podman save -o local_image_wkulhanek_gogs.tar docker.io/wkulhanek/gogs
+$ podman save -o local_image_.rhel8_postgresql-10.tar registry.redhat.io/rhel8/postgresql-10
 ```
 
 ##### Copy the **local_image_wkulhanek_gogs.tar** to the OCP disconnected infrastructure.
 
 ```
-$ scp -i local_image_wkulhanek_gogs.tar bastion:/home/ocpuser/.
+$ scp -i local_image_*.tar bastion:/home/ocpuser/.
 ```
 
 ##### Login to the external registry.
@@ -72,7 +89,7 @@ $ scp -i local_image_wkulhanek_gogs.tar bastion:/home/ocpuser/.
 $ podman login --tls-verify=false registry.docp4.lab.bcnconsulting.com:5000 --log-level debug
 ```
 
-..* Load image into the external registry.
+##### Load image into the external registry.
 
 ```
 $ podman load -i gogs-official.tar
